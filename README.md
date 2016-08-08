@@ -46,7 +46,7 @@ $expr = DatabaseExpressions::dateTruncMonth('created_at');
 // Yearly buckets: '2026'
 $expr = DatabaseExpressions::dateTruncYear('created_at');
 
-// General dispatcher — falls back to month for unknown periods
+// General dispatcher — throws `InvalidArgumentException` for unknown periods
 $expr = DatabaseExpressions::dateFormat('created_at', 'week');
 ```
 
@@ -167,6 +167,23 @@ $isSqlite = DatabaseExpressions::isSqlite(); // bool
 ## Security
 
 All `$column` parameters are validated against the pattern `[a-zA-Z0-9_.]+` before being interpolated into SQL. Passing an invalid column name (e.g. user-supplied input) throws an `InvalidArgumentException`. Never pass raw user input as a column name.
+
+## Known Limitations
+
+### Week Number Semantics
+
+The `dateTruncWeek()` and `extractWeek()` methods produce slightly different week numbers between SQLite and MySQL:
+
+| Driver | `dateTruncWeek` format | `extractWeek` function | Week start |
+|--------|----------------------|----------------------|------------|
+| SQLite | `strftime('%W')` — Monday-based, 00–53 | `strftime('%W')` — Monday-based, 00–53 | Monday |
+| MySQL  | `DATE_FORMAT('%u')` — Monday-based, 01–53 | `WEEK()` — mode 0, Sunday-based, 0–53 | Varies |
+
+If exact cross-driver parity is required for week numbers, consider using `dateTruncDay()` and computing week buckets in application code.
+
+### dateFormat() Throws on Invalid Periods
+
+The `dateFormat()` dispatcher throws an `InvalidArgumentException` if the period is not one of: `hour`, `day`, `week`, `month`, `year`. Validate user input before passing it to this method.
 
 ## License
 

@@ -65,6 +65,9 @@ class DatabaseExpressions
 
     /**
      * Format a datetime column to weekly buckets: 'YYYY-WW'.
+     *
+     * Note: SQLite uses %W (Monday as first day, 00-53) while MySQL uses %u
+     * (Monday as first day, 01-53). Week numbering may differ by one between drivers.
      */
     public static function dateTruncWeek(string $column): string
     {
@@ -113,7 +116,9 @@ class DatabaseExpressions
             'week' => static::dateTruncWeek($column),
             'month' => static::dateTruncMonth($column),
             'year' => static::dateTruncYear($column),
-            default => static::dateTruncMonth($column),
+            default => throw new InvalidArgumentException(
+                "Unknown date format period: '{$groupBy}'. Valid periods are: hour, day, week, month, year."
+            ),
         };
     }
 
@@ -147,6 +152,10 @@ class DatabaseExpressions
 
     /**
      * Extract the week number from a datetime column.
+     *
+     * Note: SQLite strftime('%W') counts weeks from 00 (Monday-based), while
+     * MySQL WEEK() defaults to mode 0 (Sunday-based, 0-53). Results may differ
+     * between drivers for the same date.
      */
     public static function extractWeek(string $column): string
     {
