@@ -1,9 +1,9 @@
 # laravel-db-expressions
 
-![Tests](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml/badge.svg)
-![PHP Version](https://img.shields.io/badge/php-%5E8.2-blue)
-![Laravel](https://img.shields.io/badge/laravel-11%2B%20%7C%2012%2B-red)
-![License](https://img.shields.io/badge/license-MIT-green)
+[![Tests](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
+[![PHP Version Require](https://img.shields.io/packagist/php-v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
+[![License](https://img.shields.io/github/license/philiprehberger/laravel-db-expressions)](LICENSE)
 
 Database-agnostic SQL expression helper for Laravel. Provides static methods that return raw SQL strings for date truncation, date part extraction, and date difference calculations — automatically handling the syntax differences between **SQLite** and **MySQL/MariaDB**.
 
