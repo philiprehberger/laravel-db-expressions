@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2] - 2026-03-16
+
+### Changed
+- Standardize composer.json: add type, homepage, scripts
+- Add Development section to README
+
 ## [1.1.1] - 2026-03-15
 
 ### Changed

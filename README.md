@@ -185,6 +185,15 @@ If exact cross-driver parity is required for week numbers, consider using `dateT
 
 The `dateFormat()` dispatcher throws an `InvalidArgumentException` if the period is not one of: `hour`, `day`, `week`, `month`, `year`. Validate user input before passing it to this method.
 
+## Development
+
+```bash
+composer install
+vendor/bin/phpunit
+vendor/bin/pint --test
+vendor/bin/phpstan analyse
+```
+
 ## License
 
 MIT License. Copyright (c) 2026 Philip Rehberger. See [LICENSE](LICENSE) for details.
