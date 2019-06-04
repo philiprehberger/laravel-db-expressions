@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.3] - 2026-03-17
+
+### Changed
+- Standardized package metadata, README structure, and CI workflow per package guide
+
 ## [1.1.2] - 2026-03-16
 
 ### Changed
