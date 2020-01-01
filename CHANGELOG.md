@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.4] - 2026-03-17
+
+### Fixed
+- Add phpstan.neon configuration for CI static analysis
+
 ## [1.1.3] - 2026-03-17
 
 ### Changed
