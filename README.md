@@ -4,7 +4,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
 [![License](https://img.shields.io/github/license/philiprehberger/laravel-db-expressions)](LICENSE)
 
-Database-agnostic SQL expression helper for Laravel. Provides static methods that return raw SQL strings for date truncation, date part extraction, and date difference calculations — automatically handling the syntax differences between **SQLite** and **MySQL/MariaDB**.
+Database-agnostic SQL expression helper for date truncation, extraction, and differences across SQLite and MySQL.
 
 ## Requirements
 
