@@ -87,6 +87,12 @@ $expr = DatabaseExpressions::extractYear('created_at');
 
 // Quarter: 1–4
 $expr = DatabaseExpressions::extractQuarter('created_at');
+
+// Minute: 0–59
+$expr = DatabaseExpressions::extractMinute('created_at');
+
+// Second: 0–59
+$expr = DatabaseExpressions::extractSecond('created_at');
 ```
 
 Real Eloquent query example:
@@ -122,6 +128,34 @@ $avg = Project::query()
     ->whereNotNull('completed_at')
     ->selectRaw('AVG(' . DatabaseExpressions::dateDiffDays('completed_at', 'created_at') . ') as avg_days')
     ->value('avg_days');
+```
+
+### Date Arithmetic
+
+Add or subtract days from a datetime column.
+
+```php
+use PhilipRehberger\DbExpressions\DatabaseExpressions;
+
+// Add 7 days to a date
+$expr = DatabaseExpressions::addDays('created_at', 7);
+
+// Subtract 30 days from a date
+$expr = DatabaseExpressions::subtractDays('created_at', 30);
+```
+
+Real Eloquent query example:
+
+```php
+// Find records expiring within the next 7 days
+$expiring = Subscription::query()
+    ->whereRaw(DatabaseExpressions::addDays('created_at', 365) . ' < NOW()')
+    ->get();
+
+// Get records from the last 30 days using date arithmetic
+$recent = Order::query()
+    ->whereRaw('created_at >= ' . DatabaseExpressions::subtractDays('NOW()', 30))
+    ->get();
 ```
 
 ### Facade
@@ -160,6 +194,10 @@ $isSqlite = DatabaseExpressions::isSqlite(); // bool
 | `extractMonth` | `CAST(strftime('%m', col) AS INTEGER)` | `MONTH(col)` |
 | `extractYear` | `CAST(strftime('%Y', col) AS INTEGER)` | `YEAR(col)` |
 | `extractQuarter` | `((CAST(strftime('%m', col) AS INTEGER) - 1) / 3) + 1` | `QUARTER(col)` |
+| `extractMinute` | `CAST(strftime('%M', col) AS INTEGER)` | `MINUTE(col)` |
+| `extractSecond` | `CAST(strftime('%S', col) AS INTEGER)` | `SECOND(col)` |
+| `addDays` | `datetime(col, '+N days')` | `DATE_ADD(col, INTERVAL N DAY)` |
+| `subtractDays` | `datetime(col, '-N days')` | `DATE_SUB(col, INTERVAL N DAY)` |
 | `dateDiffDays` | `CAST((julianday(c1) - julianday(c2)) AS INTEGER)` | `DATEDIFF(c1, c2)` |
 | `dateDiffHours` | `(julianday(c1) - julianday(c2)) * 24` | `TIMESTAMPDIFF(HOUR, c2, c1)` |
 
@@ -200,6 +238,10 @@ The `dateFormat()` dispatcher throws an `InvalidArgumentException` if the period
 | `DatabaseExpressions::extractMonth(string $column): string` | Extract month as integer (1–12) |
 | `DatabaseExpressions::extractYear(string $column): string` | Extract year as integer |
 | `DatabaseExpressions::extractQuarter(string $column): string` | Extract quarter as integer (1–4) |
+| `DatabaseExpressions::extractMinute(string $column): string` | Extract minute as integer (0–59) |
+| `DatabaseExpressions::extractSecond(string $column): string` | Extract second as integer (0–59) |
+| `DatabaseExpressions::addDays(string $column, int $days): string` | Add days to a datetime column |
+| `DatabaseExpressions::subtractDays(string $column, int $days): string` | Subtract days from a datetime column |
 | `DatabaseExpressions::dateDiffDays(string $col1, string $col2): string` | Difference between two date columns in whole days |
 | `DatabaseExpressions::dateDiffHours(string $col1, string $col2): string` | Difference between two date columns in hours |
 | `DatabaseExpressions::driver(): string` | Return the current DB driver name |
