@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
 [![License](https://img.shields.io/github/license/philiprehberger/laravel-db-expressions)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Database-agnostic SQL expression helper for date truncation, extraction, and differences across SQLite and MySQL.
 
