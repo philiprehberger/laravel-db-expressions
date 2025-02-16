@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-03-31
+
+### Changed
+- Standardize README to 3-badge format with emoji Support section
+- Update CI checkout action to v5 for Node.js 24 compatibility
+- Add GitHub issue templates, dependabot config, and PR template
+
 ## [1.2.0] - 2026-03-22
 
 ### Added

@@ -2,8 +2,7 @@
 
 [![Tests](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
-[![License](https://img.shields.io/github/license/philiprehberger/laravel-db-expressions)](LICENSE)
-[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/laravel-db-expressions)](https://github.com/philiprehberger/laravel-db-expressions/commits/main)
 
 Database-agnostic SQL expression helper for date truncation, extraction, and differences across SQLite and MySQL.
 
@@ -257,7 +256,24 @@ vendor/bin/pint --test
 vendor/bin/phpstan analyse
 ```
 
+## Support
+
+If you find this project useful:
+
+⭐ [Star the repo](https://github.com/philiprehberger/laravel-db-expressions)
+
+🐛 [Report issues](https://github.com/philiprehberger/laravel-db-expressions/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+💡 [Suggest features](https://github.com/philiprehberger/laravel-db-expressions/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
+
+🌐 [All Open Source Projects](https://philiprehberger.com/open-source-packages)
+
+💻 [GitHub Profile](https://github.com/philiprehberger)
+
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/philiprehberger)
+
 ## License
 
-MIT
-
+[MIT](LICENSE)
