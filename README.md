@@ -171,3 +171,4 @@ All `$column` parameters are validated against the pattern `[a-zA-Z0-9_.]+` befo
 ## License
 
 MIT License. Copyright (c) 2026 Philip Rehberger. See [LICENSE](LICENSE) for details.
+
