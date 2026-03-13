@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Orchestra\Testbench\TestCase;
 use PhilipRehberger\DbExpressions\DatabaseExpressions;
 use PhilipRehberger\DbExpressions\DbExpressionsServiceProvider;
+use PhilipRehberger\DbExpressions\Facades\DbExpressions;
 
 class DatabaseExpressionsTest extends TestCase
 {
@@ -230,20 +231,20 @@ class DatabaseExpressionsTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    public function test_date_format_unknown_period_falls_back_to_month(): void
+    public function test_date_format_unknown_period_throws_exception(): void
     {
-        $result = DatabaseExpressions::dateFormat('created_at', 'quarter');
-        $expected = DatabaseExpressions::dateTruncMonth('created_at');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Unknown date format period/');
 
-        $this->assertSame($expected, $result);
+        DatabaseExpressions::dateFormat('created_at', 'quarter');
     }
 
-    public function test_date_format_empty_period_falls_back_to_month(): void
+    public function test_date_format_empty_period_throws_exception(): void
     {
-        $result = DatabaseExpressions::dateFormat('created_at', '');
-        $expected = DatabaseExpressions::dateTruncMonth('created_at');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/Unknown date format period/');
 
-        $this->assertSame($expected, $result);
+        DatabaseExpressions::dateFormat('created_at', '');
     }
 
     // ---------------------------------------------------------------
@@ -577,5 +578,70 @@ class DatabaseExpressionsTest extends TestCase
         $this->assertStringContainsString($column, DatabaseExpressions::extractMonth($column));
         $this->assertStringContainsString($column, DatabaseExpressions::extractYear($column));
         $this->assertStringContainsString($column, DatabaseExpressions::extractQuarter($column));
+    }
+
+    // ---------------------------------------------------------------
+    // Facade delegation
+    // ---------------------------------------------------------------
+
+    public function test_facade_delegates_date_trunc_month(): void
+    {
+        $direct = DatabaseExpressions::dateTruncMonth('created_at');
+        $facade = DbExpressions::dateTruncMonth('created_at');
+
+        $this->assertSame($direct, $facade);
+    }
+
+    public function test_facade_delegates_extract_quarter(): void
+    {
+        $direct = DatabaseExpressions::extractQuarter('created_at');
+        $facade = DbExpressions::extractQuarter('created_at');
+
+        $this->assertSame($direct, $facade);
+    }
+
+    public function test_facade_delegates_date_diff_days(): void
+    {
+        $direct = DatabaseExpressions::dateDiffDays('completed_at', 'created_at');
+        $facade = DbExpressions::dateDiffDays('completed_at', 'created_at');
+
+        $this->assertSame($direct, $facade);
+    }
+
+    // ---------------------------------------------------------------
+    // Week format verification
+    // ---------------------------------------------------------------
+
+    public function test_date_trunc_week_sqlite_uses_w_format(): void
+    {
+        $result = DatabaseExpressions::dateTruncWeek('created_at');
+
+        $this->assertStringContainsString('%Y-%W', $result);
+    }
+
+    // ---------------------------------------------------------------
+    // Table-qualified columns in dateDiff
+    // ---------------------------------------------------------------
+
+    public function test_date_diff_days_accepts_table_qualified_columns(): void
+    {
+        $result = DatabaseExpressions::dateDiffDays('orders.completed_at', 'orders.created_at');
+
+        $this->assertStringContainsString('orders.completed_at', $result);
+        $this->assertStringContainsString('orders.created_at', $result);
+    }
+
+    // ---------------------------------------------------------------
+    // All valid periods loop
+    // ---------------------------------------------------------------
+
+    public function test_date_format_accepts_all_valid_periods(): void
+    {
+        $validPeriods = ['hour', 'day', 'week', 'month', 'year'];
+
+        foreach ($validPeriods as $period) {
+            $result = DatabaseExpressions::dateFormat('created_at', $period);
+            $this->assertIsString($result, "dateFormat should return a string for period '{$period}'");
+        }
     }
 }

@@ -25,7 +25,7 @@ use PhilipRehberger\DbExpressions\DatabaseExpressions;
  * @method static string dateDiffDays(string $column1, string $column2)
  * @method static string dateDiffHours(string $column1, string $column2)
  *
- * @see \PhilipRehberger\DbExpressions\DatabaseExpressions
+ * @see DatabaseExpressions
  */
 class DbExpressions extends Facade
 {
