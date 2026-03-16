@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.1] - 2026-03-15
+
+### Changed
+- Add README badges
+
 ## [1.1.0] - 2026-03-12
 
 ### Changed
