@@ -1,8 +1,7 @@
-# laravel-db-expressions
+# Laravel DB Expressions
 
 [![Tests](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/laravel-db-expressions/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
-[![PHP Version Require](https://img.shields.io/packagist/php-v/philiprehberger/laravel-db-expressions.svg)](https://packagist.org/packages/philiprehberger/laravel-db-expressions)
 [![License](https://img.shields.io/github/license/philiprehberger/laravel-db-expressions)](LICENSE)
 
 Database-agnostic SQL expression helper for Laravel. Provides static methods that return raw SQL strings for date truncation, date part extraction, and date difference calculations — automatically handling the syntax differences between **SQLite** and **MySQL/MariaDB**.
@@ -185,6 +184,27 @@ If exact cross-driver parity is required for week numbers, consider using `dateT
 
 The `dateFormat()` dispatcher throws an `InvalidArgumentException` if the period is not one of: `hour`, `day`, `week`, `month`, `year`. Validate user input before passing it to this method.
 
+## API
+
+| Method | Description |
+|--------|-------------|
+| `DatabaseExpressions::dateTruncHour(string $column): string` | SQL expression for hourly time bucket |
+| `DatabaseExpressions::dateTruncDay(string $column): string` | SQL expression for daily time bucket |
+| `DatabaseExpressions::dateTruncWeek(string $column): string` | SQL expression for weekly time bucket |
+| `DatabaseExpressions::dateTruncMonth(string $column): string` | SQL expression for monthly time bucket |
+| `DatabaseExpressions::dateTruncYear(string $column): string` | SQL expression for yearly time bucket |
+| `DatabaseExpressions::dateFormat(string $column, string $period): string` | General dispatcher for date truncation; throws on invalid period |
+| `DatabaseExpressions::extractHour(string $column): string` | Extract hour of day as integer (0–23) |
+| `DatabaseExpressions::extractDay(string $column): string` | Extract day of month as integer (1–31) |
+| `DatabaseExpressions::extractWeek(string $column): string` | Extract week number as integer (0–53) |
+| `DatabaseExpressions::extractMonth(string $column): string` | Extract month as integer (1–12) |
+| `DatabaseExpressions::extractYear(string $column): string` | Extract year as integer |
+| `DatabaseExpressions::extractQuarter(string $column): string` | Extract quarter as integer (1–4) |
+| `DatabaseExpressions::dateDiffDays(string $col1, string $col2): string` | Difference between two date columns in whole days |
+| `DatabaseExpressions::dateDiffHours(string $col1, string $col2): string` | Difference between two date columns in hours |
+| `DatabaseExpressions::driver(): string` | Return the current DB driver name |
+| `DatabaseExpressions::isSqlite(): bool` | Whether the current connection is SQLite |
+
 ## Development
 
 ```bash
@@ -196,5 +216,5 @@ vendor/bin/phpstan analyse
 
 ## License
 
-MIT License. Copyright (c) 2026 Philip Rehberger. See [LICENSE](LICENSE) for details.
+MIT
 
