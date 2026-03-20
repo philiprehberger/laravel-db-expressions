@@ -145,7 +145,7 @@ $driver = DatabaseExpressions::driver();   // 'sqlite', 'mysql', etc.
 $isSqlite = DatabaseExpressions::isSqlite(); // bool
 ```
 
-## Multi-Driver Support
+### Multi-Driver Support
 
 | Method | SQLite | MySQL / MariaDB |
 |---|---|---|
@@ -163,11 +163,11 @@ $isSqlite = DatabaseExpressions::isSqlite(); // bool
 | `dateDiffDays` | `CAST((julianday(c1) - julianday(c2)) AS INTEGER)` | `DATEDIFF(c1, c2)` |
 | `dateDiffHours` | `(julianday(c1) - julianday(c2)) * 24` | `TIMESTAMPDIFF(HOUR, c2, c1)` |
 
-## Security
+### Security
 
 All `$column` parameters are validated against the pattern `[a-zA-Z0-9_.]+` before being interpolated into SQL. Passing an invalid column name (e.g. user-supplied input) throws an `InvalidArgumentException`. Never pass raw user input as a column name.
 
-## Known Limitations
+### Known Limitations
 
 ### Week Number Semantics
 
