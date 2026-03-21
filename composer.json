@@ -1,6 +1,6 @@
 {
     "name": "philiprehberger/laravel-db-expressions",
-    "description": "Database-agnostic SQL expression helper for date truncation, extraction, and differences across SQLite and MySQL.",
+    "description": "Database-agnostic SQL expression helper for date truncation, extraction, and differences across SQLite and MySQL",
     "keywords": ["laravel", "database", "sql", "date", "expressions", "sqlite"],
     "type": "library",
     "license": "MIT",
