@@ -22,6 +22,10 @@ use PhilipRehberger\DbExpressions\DatabaseExpressions;
  * @method static string extractMonth(string $column)
  * @method static string extractYear(string $column)
  * @method static string extractQuarter(string $column)
+ * @method static string extractMinute(string $column)
+ * @method static string extractSecond(string $column)
+ * @method static string addDays(string $column, int $days)
+ * @method static string subtractDays(string $column, int $days)
  * @method static string dateDiffDays(string $column1, string $column2)
  * @method static string dateDiffHours(string $column1, string $column2)
  *

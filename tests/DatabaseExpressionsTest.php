@@ -383,6 +383,104 @@ class DatabaseExpressionsTest extends TestCase
     }
 
     // ---------------------------------------------------------------
+    // extractMinute
+    // ---------------------------------------------------------------
+
+    public function test_extract_minute_returns_string(): void
+    {
+        $result = DatabaseExpressions::extractMinute('created_at');
+
+        $this->assertIsString($result);
+    }
+
+    public function test_extract_minute_sqlite_contains_strftime_and_cast(): void
+    {
+        $result = DatabaseExpressions::extractMinute('created_at');
+
+        $this->assertStringContainsString('strftime', $result);
+        $this->assertStringContainsString('CAST', $result);
+        $this->assertStringContainsString('%M', $result);
+        $this->assertStringContainsString('created_at', $result);
+    }
+
+    // ---------------------------------------------------------------
+    // extractSecond
+    // ---------------------------------------------------------------
+
+    public function test_extract_second_returns_string(): void
+    {
+        $result = DatabaseExpressions::extractSecond('created_at');
+
+        $this->assertIsString($result);
+    }
+
+    public function test_extract_second_sqlite_contains_strftime_and_cast(): void
+    {
+        $result = DatabaseExpressions::extractSecond('created_at');
+
+        $this->assertStringContainsString('strftime', $result);
+        $this->assertStringContainsString('CAST', $result);
+        $this->assertStringContainsString('%S', $result);
+        $this->assertStringContainsString('created_at', $result);
+    }
+
+    // ---------------------------------------------------------------
+    // addDays
+    // ---------------------------------------------------------------
+
+    public function test_add_days_returns_string(): void
+    {
+        $result = DatabaseExpressions::addDays('created_at', 7);
+
+        $this->assertIsString($result);
+    }
+
+    public function test_add_days_sqlite_contains_datetime_and_days(): void
+    {
+        $result = DatabaseExpressions::addDays('created_at', 7);
+
+        $this->assertStringContainsString('datetime', $result);
+        $this->assertStringContainsString('+7 days', $result);
+        $this->assertStringContainsString('created_at', $result);
+    }
+
+    public function test_add_days_sqlite_accepts_table_qualified_column(): void
+    {
+        $result = DatabaseExpressions::addDays('orders.created_at', 30);
+
+        $this->assertStringContainsString('orders.created_at', $result);
+        $this->assertStringContainsString('+30 days', $result);
+    }
+
+    // ---------------------------------------------------------------
+    // subtractDays
+    // ---------------------------------------------------------------
+
+    public function test_subtract_days_returns_string(): void
+    {
+        $result = DatabaseExpressions::subtractDays('created_at', 7);
+
+        $this->assertIsString($result);
+    }
+
+    public function test_subtract_days_sqlite_contains_datetime_and_days(): void
+    {
+        $result = DatabaseExpressions::subtractDays('created_at', 7);
+
+        $this->assertStringContainsString('datetime', $result);
+        $this->assertStringContainsString('-7 days', $result);
+        $this->assertStringContainsString('created_at', $result);
+    }
+
+    public function test_subtract_days_sqlite_accepts_table_qualified_column(): void
+    {
+        $result = DatabaseExpressions::subtractDays('orders.created_at', 30);
+
+        $this->assertStringContainsString('orders.created_at', $result);
+        $this->assertStringContainsString('-30 days', $result);
+    }
+
+    // ---------------------------------------------------------------
     // dateDiffDays
     // ---------------------------------------------------------------
 
@@ -578,6 +676,8 @@ class DatabaseExpressionsTest extends TestCase
         $this->assertStringContainsString($column, DatabaseExpressions::extractMonth($column));
         $this->assertStringContainsString($column, DatabaseExpressions::extractYear($column));
         $this->assertStringContainsString($column, DatabaseExpressions::extractQuarter($column));
+        $this->assertStringContainsString($column, DatabaseExpressions::extractMinute($column));
+        $this->assertStringContainsString($column, DatabaseExpressions::extractSecond($column));
     }
 
     // ---------------------------------------------------------------
@@ -606,6 +706,62 @@ class DatabaseExpressionsTest extends TestCase
         $facade = DbExpressions::dateDiffDays('completed_at', 'created_at');
 
         $this->assertSame($direct, $facade);
+    }
+
+    public function test_facade_delegates_extract_minute(): void
+    {
+        $direct = DatabaseExpressions::extractMinute('created_at');
+        $facade = DbExpressions::extractMinute('created_at');
+
+        $this->assertSame($direct, $facade);
+    }
+
+    public function test_facade_delegates_add_days(): void
+    {
+        $direct = DatabaseExpressions::addDays('created_at', 7);
+        $facade = DbExpressions::addDays('created_at', 7);
+
+        $this->assertSame($direct, $facade);
+    }
+
+    public function test_facade_delegates_subtract_days(): void
+    {
+        $direct = DatabaseExpressions::subtractDays('created_at', 14);
+        $facade = DbExpressions::subtractDays('created_at', 14);
+
+        $this->assertSame($direct, $facade);
+    }
+
+    // ---------------------------------------------------------------
+    // guardColumn on new methods
+    // ---------------------------------------------------------------
+
+    public function test_guard_column_throws_on_add_days_invalid_column(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        DatabaseExpressions::addDays('col; DROP TABLE users', 7);
+    }
+
+    public function test_guard_column_throws_on_subtract_days_invalid_column(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        DatabaseExpressions::subtractDays('col; DROP TABLE users', 7);
+    }
+
+    public function test_guard_column_throws_on_extract_minute_invalid_column(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        DatabaseExpressions::extractMinute('SLEEP(5)');
+    }
+
+    public function test_guard_column_throws_on_extract_second_invalid_column(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        DatabaseExpressions::extractSecond('SLEEP(5)');
     }
 
     // ---------------------------------------------------------------

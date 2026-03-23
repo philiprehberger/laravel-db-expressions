@@ -202,6 +202,64 @@ class DatabaseExpressions
             : "QUARTER({$column})";
     }
 
+    /**
+     * Extract the minute (0-59) from a datetime column.
+     */
+    public static function extractMinute(string $column): string
+    {
+        static::guardColumn($column);
+
+        return static::isSqlite()
+            ? "CAST(strftime('%M', {$column}) AS INTEGER)"
+            : "MINUTE({$column})";
+    }
+
+    /**
+     * Extract the second (0-59) from a datetime column.
+     */
+    public static function extractSecond(string $column): string
+    {
+        static::guardColumn($column);
+
+        return static::isSqlite()
+            ? "CAST(strftime('%S', {$column}) AS INTEGER)"
+            : "SECOND({$column})";
+    }
+
+    // ---------------------------------------------------------------
+    // Date Arithmetic
+    // ---------------------------------------------------------------
+
+    /**
+     * Add days to a datetime column.
+     *
+     * Returns a SQL expression that produces a datetime value with the
+     * given number of days added.
+     */
+    public static function addDays(string $column, int $days): string
+    {
+        static::guardColumn($column);
+
+        return static::isSqlite()
+            ? "datetime({$column}, '+{$days} days')"
+            : "DATE_ADD({$column}, INTERVAL {$days} DAY)";
+    }
+
+    /**
+     * Subtract days from a datetime column.
+     *
+     * Returns a SQL expression that produces a datetime value with the
+     * given number of days subtracted.
+     */
+    public static function subtractDays(string $column, int $days): string
+    {
+        static::guardColumn($column);
+
+        return static::isSqlite()
+            ? "datetime({$column}, '-{$days} days')"
+            : "DATE_SUB({$column}, INTERVAL {$days} DAY)";
+    }
+
     // ---------------------------------------------------------------
     // Date Differences
     // ---------------------------------------------------------------

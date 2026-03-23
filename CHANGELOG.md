@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-03-22
+
+### Added
+- `addDays(string $column, int $days)` — date arithmetic to add days (SQLite/MySQL)
+- `subtractDays(string $column, int $days)` — date arithmetic to subtract days (SQLite/MySQL)
+- `extractMinute(string $column)` — extract minute (0–59) from a datetime column
+- `extractSecond(string $column)` — extract second (0–59) from a datetime column
+- Tests for all new methods on both drivers, including facade delegation and guard column validation
+
 ## [1.1.5] - 2026-03-23
 
 ### Fixed
