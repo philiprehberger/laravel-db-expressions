@@ -1,10 +1,15 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to `laravel-db-expressions` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+## [1.1.5] - 2026-03-23
+
+### Fixed
+- Standardize CHANGELOG preamble to use package name
 
 ## [1.1.4] - 2026-03-17
 
