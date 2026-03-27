@@ -3,5 +3,5 @@ parameters:
 		-
 			message: '#^Unsafe call to private method PhilipRehberger\\DbExpressions\\DatabaseExpressions\:\:guardColumn\(\) through static\:\:\.$#'
 			identifier: staticClassAccess.privateMethod
-			count: 15
+			count: 19
 			path: src/DatabaseExpressions.php
